@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:providersapi/provider/provider.dart';
+import 'package:providersapi/secondpage.dart';
 
 class ScreenHome extends StatefulWidget {
   ScreenHome({Key? key}) : super(key: key);
@@ -40,10 +41,15 @@ class _ScreenHomeState extends State<ScreenHome> {
                     crossAxisCount: 2),
                 itemCount: provider.trendingModel.results!.length,
                 itemBuilder: (ctx, index) {
-                  return Card(
-                    child: Image.network(imageurl +
-                        provider.trendingModel.results![index].posterPath
-                            .toString()),
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>ScreenTwo(id: provider.trendingModel.results![index].id.toString())));
+                    },
+                    child: Card(
+                      child: Image.network(imageurl +
+                          provider.trendingModel.results![index].posterPath
+                              .toString()),
+                    ),
                   );
                 }));
   }
