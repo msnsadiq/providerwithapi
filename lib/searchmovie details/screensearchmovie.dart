@@ -85,10 +85,12 @@ class _SearchDisplayState extends State<SearchDisplay> {
                 scrollDirection: Axis.vertical,
                 child: Column(
                   children: [
+
                     searchMovieProvider.searchMovieModel.results![index].posterPath != null ?     Container(
 
-                     height: 200,
-                      width: 200,
+                     height: MediaQuery.of(context).size.height,
+
+                      width: MediaQuery.of(context).size.width,
                       child:  Image.network( imageurl+searchMovieProvider.searchMovieModel.results![index].posterPath.toString()),
                     ):Icon(Icons.refresh,size: 55,),
 

@@ -1,17 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:providersapi/provider/provider.dart';
-import 'package:providersapi/repository/api/MovieIdModel.dart';
-import 'package:providersapi/repository/api/TrendingModel.dart';
-import 'package:providersapi/repository/api/apiitem.dart';
 
-class CustomSearchDelegate extends SearchDelegate{
- //late String id;
-  AllApi allApi = AllApi();
-  TrendingModel trendingModel = TrendingModel();
-  MovieIdModel movieIdModel = MovieIdModel();
-  ProviderItems providerItems = ProviderItems();
+import 'package:flutter/material.dart';
+import 'package:providersapi/searchmovie%20details/screensearchmovie.dart';
+
+class DataSearch extends SearchDelegate{
+ // final String activeTab;
+  //DataSearch({required this.activeTab});
   List<String>searchTerms = [
     "spiderman",
     "batman",
@@ -21,70 +14,73 @@ class CustomSearchDelegate extends SearchDelegate{
     "avengers"
 
   ];
+
+
   @override
-  List<Widget>? buildActions(BuildContext context, ) {
-    // TODO: implement buildActions
-    //throw UnimplementedError();
+  List<Widget> buildActions(BuildContext context){
     return [
-    IconButton(onPressed: (){
-      close(context, null);
-    }, icon: Icon(Icons.arrow_back_ios))
+
+      IconButton(
+        icon: Icon(Icons.search,color: Colors.red,size: 45,),
+        onPressed: ()async{
+          //query=activeTab;
+         await Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SearchDisplay(moviename: query)));
+        },
+      ),
+      SizedBox(width: 10,)
 
     ];
   }
 
   @override
-  Widget? buildLeading(BuildContext context) {
-    // TODO: implement buildLeading
-   // throw UnimplementedError();
-    return IconButton(onPressed: (){
-      query = "";
-    }, icon: Icon(Icons.close));
-  }
+  Widget buildLeading(BuildContext context) => IconButton(
+    icon: Icon(Icons.close),
+    onPressed: () => close(context, null),
+  );
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-   // throw UnimplementedError();
-    List<String>matchQuery = [];
-    for(var movies in searchTerms){
-      if(movies.toLowerCase().contains(query.toLowerCase())){
-        matchQuery.add(movies);
-      }
-    }
-    return ListView.builder(
-        itemCount: matchQuery.length,
-        itemBuilder: (ctx,index){
-          var allItems = matchQuery[index];
-          return ListTile(
-            title: Text(allItems),
-          );
-        });
+    return Center(child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: Colors.black,
+        child: Center(child: Text(query,style: TextStyle(color: Colors.white),))),);
+
+
+
   }
+
+  /// worked on keyboard search . but not work back button when enter the movie page
+  // @override
+  //  buildResults(BuildContext context)async {
+  //   return
+  //
+  //     await Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SearchDisplay(moviename: query)));
+  //
+  // }
+  /// end
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // TODO: implement buildSuggestions
-    //throw UnimplementedError();
     List<String>matchQuery = [];
     for(var movies in searchTerms){
       if(movies.toLowerCase().contains(query.toLowerCase())){
         matchQuery.add(movies);
       }
     }
-    return ListView.builder(
-        itemCount: matchQuery.length,
-        itemBuilder: (ctx,index){
-          var allItems = matchQuery[index];
-          return ListTile(
-            title: Text(allItems),
-          );
-        });
-  }
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      color: Colors.black,
+      child: ListView.builder(
+          itemCount: matchQuery.length,
+          itemBuilder: (ctx,index){
+            var allItems = matchQuery[index];
+            return ListTile(
 
-// btn(BuildContext context, String id)async{
-//     final provideritem = Provider.of<ProviderItems>(context);
-//     providerItems.builProviderMovieId(context, id);
-//    await providerItems.movieIdModel.id.toString();
-// }
-}
+              title: Text(allItems,style: TextStyle(color: Colors.white),),
+            );
+          }),
+    );
+  }
+  }

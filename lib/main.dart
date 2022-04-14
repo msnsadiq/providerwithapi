@@ -4,8 +4,10 @@ import 'package:providersapi/categorypage.dart';
 import 'package:providersapi/homepage.dart';
 import 'package:providersapi/provider/provider.dart';
 import 'package:providersapi/provider/searchmovieprovider.dart';
+import 'package:providersapi/repository/Open%20Page/openpage.dart';
 
 void main() {
+
   runApp(
     MultiProvider(
       providers: [
@@ -27,10 +29,12 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'providersapi',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.grey,
         ),
        // home: ScreenHome());
-    home: CategoryPage());
+    //home: CategoryPage()
+      home: OpenPage(),
+    );
   }
 }
 //8417e5718758d632f59c399f948b60ea
