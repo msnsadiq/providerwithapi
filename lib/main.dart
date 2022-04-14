@@ -4,15 +4,17 @@ import 'package:providersapi/categorypage.dart';
 import 'package:providersapi/homepage.dart';
 import 'package:providersapi/provider/provider.dart';
 import 'package:providersapi/provider/searchmovieprovider.dart';
+import 'package:providersapi/provider/tvshowtop_provider.dart';
 import 'package:providersapi/repository/Open%20Page/openpage.dart';
 
 void main() {
-
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider<ProviderItems>(create: (_) => ProviderItems()),
-        ChangeNotifierProvider<SearchMovieProvider>(create: (_)=>SearchMovieProvider())
+        ChangeNotifierProvider<SearchMovieProvider>(
+            create: (_) => SearchMovieProvider()),
+        ChangeNotifierProvider<TvTopProvider>(create: (_) => TvTopProvider())
       ],
       child: MyApp(),
     ),
@@ -26,13 +28,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'providersapi',
-        theme: ThemeData(
-          primarySwatch: Colors.grey,
-        ),
-       // home: ScreenHome());
-    //home: CategoryPage()
+      debugShowCheckedModeBanner: false,
+      title: 'providersapi',
+      theme: ThemeData(
+        primarySwatch: Colors.grey,
+      ),
+      // home: ScreenHome());
+      //home: CategoryPage()
       home: OpenPage(),
     );
   }
