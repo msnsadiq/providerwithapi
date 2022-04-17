@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:providersapi/categorypage.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+//import 'package:providersapi/categorypage.dart';
 import 'package:providersapi/homepage.dart';
 import 'package:providersapi/repository/mixedhome.dart';
 import 'package:providersapi/repository/tvshowpage.dart';
@@ -17,53 +21,111 @@ class _OpenPageState extends State<OpenPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.yellow,
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-            // sets the background color of the `BottomNavigationBar`
-            canvasColor: Colors.black,
-            // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-            primaryColor: Colors.red,
-            textTheme: Theme.of(context)
-                .textTheme
-                .copyWith(caption: new TextStyle(color: Colors.yellow))),
-        child: BottomNavigationBar(
-            backgroundColor: Colors.black,
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            currentIndex: indexvalue,
-            unselectedItemColor: Colors.grey[600],
-            selectedItemColor: Colors.white,
-            unselectedLabelStyle: TextStyle(color: Colors.black),
-            onTap: (value) {
-              setState(() {
-                indexvalue = value;
-                pageController.animateToPage(value,
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.linear);
-              });
-            },
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.movie), label: "Movies"),
-              BottomNavigationBarItem(icon: Icon(Icons.tv), label: "TV shows")
-            ]),
-      ),
-      body: PageView(
-        controller: pageController,
-        onPageChanged: (pageValue) {
-          setState(() {
-            indexvalue = pageValue;
-          });
-        },
-        children: [
-          MixedOpenPage(),
-          ScreenHome(),
-          TvShow(),
-        ],
+    return WillPopScope(
+      onWillPop: () async {
+        return await exitBtn(context);
+      },
+      child: Scaffold(
+        backgroundColor: Colors.yellow,
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+              // sets the background color of the `BottomNavigationBar`
+              canvasColor: Colors.black,
+              // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+              primaryColor: Colors.red,
+              textTheme: Theme.of(context)
+                  .textTheme
+                  .copyWith(caption: new TextStyle(color: Colors.yellow))),
+          child: BottomNavigationBar(
+              backgroundColor: Colors.black,
+              showSelectedLabels: true,
+              showUnselectedLabels: true,
+              currentIndex: indexvalue,
+              unselectedItemColor: Colors.grey[600],
+              selectedItemColor: Colors.white,
+              unselectedLabelStyle: TextStyle(color: Colors.black),
+              onTap: (value) {
+                setState(() {
+                  indexvalue = value;
+                  pageController.animateToPage(value,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.linear);
+                });
+              },
+              items: [
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.movie), label: "Movies"),
+                BottomNavigationBarItem(icon: Icon(Icons.tv), label: "TV shows")
+              ]),
+        ),
+        body: PageView(
+          controller: pageController,
+          onPageChanged: (pageValue) {
+            setState(() {
+              indexvalue = pageValue;
+            });
+          },
+          children: [
+            MixedOpenPage(),
+            ScreenHome(),
+            TvShow(),
+          ],
+        ),
       ),
     );
+  }
+
+  exitBtn(BuildContext context) async {
+    return showDialog(
+        // barrierColor: Colors.black,
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            title: Text(
+              "are you sure you want to exit",
+              style: GoogleFonts.aladin(
+                color: Colors.white,
+              ),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Card(
+                      color: Colors.grey,
+                      child: TextButton(
+                        onPressed: () {
+                          if (Platform.isAndroid) {
+                            SystemNavigator.pop();
+                          }
+                        },
+                        child: Text(
+                          "OK",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Card(
+                      color: Colors.grey,
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            "NO",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
   }
 }
 // pageController.animateToPage(valuee, duration: Duration(milliseconds: 500), curve: Curves.linear);

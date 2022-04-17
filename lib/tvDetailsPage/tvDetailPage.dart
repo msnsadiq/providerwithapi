@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:providersapi/provider/provider.dart';
+import 'package:providersapi/provider/tvdetails_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ScreenTwo extends StatefulWidget {
-  ScreenTwo({Key? key, required this.id}) : super(key: key);
+class TvDetailPage extends StatefulWidget {
+  TvDetailPage({Key? key, required this.id}) : super(key: key);
   String id;
   @override
-  State<ScreenTwo> createState() => _ScreenTwoState();
+  State<TvDetailPage> createState() => _TvDetailPageState();
 }
 
-class _ScreenTwoState extends State<ScreenTwo> {
+class _TvDetailPageState extends State<TvDetailPage> {
   final String imageurl = "https://image.tmdb.org/t/p/w500/";
   bool isloading = false;
   bool tappp = false;
@@ -22,37 +22,36 @@ class _ScreenTwoState extends State<ScreenTwo> {
 
   @override
   void initState() {
-    final providerItem = Provider.of<ProviderItems>(context, listen: false);
-    providerItem.builProviderMovieId(context, widget.id);
+    final tvdetailsprovider =
+        Provider.of<TvDetailsProvider>(context, listen: false);
+    tvdetailsprovider.tvDetailGet(context, widget.id);
     // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final providerItem = Provider.of<ProviderItems>(context);
+    final tvdetailsprovider = Provider.of<TvDetailsProvider>(context);
     return SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Scaffold(
           backgroundColor: Colors.black,
-          body: providerItem.loading
+          body: tvdetailsprovider.loading
               ? Center(
                   child: CircularProgressIndicator(),
                 )
               : Container(
+                  width: double.infinity,
                   height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                            providerItem.movieIdModel.posterPath != null
-                                ? "assets/errorpic/noterror.jpg"
-                                : "assets/errorpic/error.jpg"),
-                        fit: BoxFit.fill
-                        //NetworkImage(imageurl + providerItem.movieIdModel.posterPath.toString()
-
-                        ),
-                  ),
+                      image: DecorationImage(
+                    image: AssetImage(
+                      tvdetailsprovider.tvDetailModell.posterPath != null
+                          ? "assets/errorpic/noterror.jpg"
+                          : "assets/errorpic/error.jpg",
+                    ),
+                    fit: BoxFit.fill,
+                  )),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Column(
@@ -60,13 +59,13 @@ class _ScreenTwoState extends State<ScreenTwo> {
                         SizedBox(
                           height: 20,
                         ),
-                        providerItem.movieIdModel.title != null
+                        tvdetailsprovider.tvDetailModell.name != null
                             ? SizedBox(
                                 width: 350,
                                 child: Padding(
                                     padding: EdgeInsets.fromLTRB(33, 19, 0, 0),
                                     child: Text(
-                                      providerItem.movieIdModel.title
+                                      tvdetailsprovider.tvDetailModell.name
                                           .toString(),
                                       style: GoogleFonts.bevan(
                                           color: Colors.white, fontSize: 20),
@@ -77,7 +76,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                 style: GoogleFonts.bevan(
                                     color: Colors.white, fontSize: 20),
                               ),
-                        providerItem.movieIdModel.runtime != null
+                        tvdetailsprovider.tvDetailModell.episodeRunTime != null
                             ? SizedBox(
                                 width: 350,
                                 child: Padding(
@@ -85,7 +84,8 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                       const EdgeInsets.fromLTRB(33, 0, 0, 0),
                                   child: Text(
                                     "RunTime:  " +
-                                        providerItem.movieIdModel.runtime
+                                        tvdetailsprovider
+                                            .tvDetailModell.episodeRunTime
                                             .toString() +
                                         "m",
                                     style: TextStyle(
@@ -98,7 +98,8 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                 style: TextStyle(
                                   color: Colors.white,
                                 )),
-                        providerItem.movieIdModel.originalLanguage != null
+                        tvdetailsprovider.tvDetailModell.originalLanguage !=
+                                null
                             ? SizedBox(
                                 width: 350,
                                 child: Padding(
@@ -107,8 +108,8 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                   child: Container(
                                       child: Text(
                                     "language:  " +
-                                        providerItem
-                                            .movieIdModel.originalLanguage
+                                        tvdetailsprovider
+                                            .tvDetailModell.originalLanguage
                                             .toString(),
                                     style: TextStyle(color: Colors.white),
                                   )),
@@ -118,7 +119,8 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                 style: TextStyle(
                                   color: Colors.white,
                                 )),
-                        providerItem.movieIdModel.originalLanguage != null
+                        tvdetailsprovider.tvDetailModell.originalLanguage !=
+                                null
                             ? SizedBox(
                                 width: 350,
                                 child: Padding(
@@ -127,7 +129,8 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                   child: Container(
                                       child: Text(
                                     "Release Date:  " +
-                                        providerItem.movieIdModel.releaseDate
+                                        tvdetailsprovider
+                                            .tvDetailModell.firstAirDate
                                             .toString(),
                                     style: TextStyle(color: Colors.white),
                                   )),
@@ -137,7 +140,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                 style: TextStyle(
                                   color: Colors.white,
                                 )),
-                        providerItem.movieIdModel.posterPath != null
+                        tvdetailsprovider.tvDetailModell.posterPath != null
                             ? Padding(
                                 padding: const EdgeInsets.only(
                                     top: 38.0, left: 15, right: 15),
@@ -148,7 +151,8 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                   child: Card(
                                     child: Image.network(
                                       "https://image.tmdb.org/t/p/w500" +
-                                          providerItem.movieIdModel.posterPath
+                                          tvdetailsprovider
+                                              .tvDetailModell.posterPath
                                               .toString(),
                                       fit: BoxFit.fill,
                                     ),
@@ -156,12 +160,13 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                 ),
                               )
                             : SizedBox(),
-                        providerItem.movieIdModel.posterPath != null
+                        tvdetailsprovider.tvDetailModell.posterPath != null
                             ? Card(
                                 elevation: 19,
                                 color: Colors.blueGrey,
                                 child: Text(
-                                  providerItem.movieIdModel.title.toString(),
+                                  tvdetailsprovider.tvDetailModell.name
+                                      .toString(),
                                   style: TextStyle(color: Colors.white),
                                 ),
                               )
@@ -169,13 +174,13 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                 style: TextStyle(
                                   color: Colors.white,
                                 )),
-                        providerItem.movieIdModel.overview != null
+                        tvdetailsprovider.tvDetailModell.overview != null
                             ? SizedBox(
                                 width: 350,
                                 child: Padding(
                                   padding: EdgeInsets.fromLTRB(30, 10, 5, 0),
                                   child: Text(
-                                      providerItem.movieIdModel.overview
+                                      tvdetailsprovider.tvDetailModell.overview
                                           .toString(),
                                       style: TextStyle(color: Colors.white),
                                       maxLines: isloading ? null : 2,
@@ -188,7 +193,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                 style: TextStyle(
                                   color: Colors.white,
                                 )),
-                        providerItem.movieIdModel.posterPath != null
+                        tvdetailsprovider.tvDetailModell.posterPath != null
                             ? TextButton(
                                 onPressed: () {
                                   setState(() {
@@ -198,14 +203,14 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                 child:
                                     Text(isloading ? "show less" : "show more"))
                             : SizedBox(),
-                        providerItem.movieIdModel.voteAverage != null
+                        tvdetailsprovider.tvDetailModell.voteAverage != null
                             ? Padding(
                                 padding: const EdgeInsets.only(top: 18.0),
                                 child: SizedBox(
                                     height: 30,
                                     width: 350,
-                                    child: providerItem
-                                                .movieIdModel.posterPath !=
+                                    child: tvdetailsprovider
+                                                .tvDetailModell.posterPath !=
                                             null
                                         ? Padding(
                                             padding: const EdgeInsets.only(
@@ -219,7 +224,8 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                                   color: Colors.yellow,
                                                 ),
                                                 Text(
-                                                  providerItem.movieIdModel
+                                                  tvdetailsprovider
+                                                          .tvDetailModell
                                                           .voteAverage
                                                           .toString() +
                                                       "/10",
@@ -238,7 +244,6 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                                 IconButton(
                                                     onPressed: () {
                                                       setState(() {
-                                                        //changeBool();
                                                         tappp = !tappp;
                                                       });
                                                     },
@@ -275,7 +280,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                       color: Colors.white,
                                     )),
                               ),
-                        providerItem.movieIdModel.posterPath != null
+                        tvdetailsprovider.tvDetailModell.posterPath != null
                             ? Padding(
                                 padding: const EdgeInsets.only(top: 48.0),
                                 child: SizedBox(
@@ -301,9 +306,9 @@ class _ScreenTwoState extends State<ScreenTwo> {
                                 ),
                               )
                             : Text(""),
-                        providerItem.movieIdModel.posterPath != null
+                        tvdetailsprovider.tvDetailModell.posterPath != null
                             ? Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
+                                padding: const EdgeInsets.only(top: 68.0),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,

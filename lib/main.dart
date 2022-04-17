@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:providersapi/categorypage.dart';
+//import 'package:providersapi/categorypage.dart';
 import 'package:providersapi/homepage.dart';
 import 'package:providersapi/provider/provider.dart';
 import 'package:providersapi/provider/searchmovieprovider.dart';
+import 'package:providersapi/provider/tvdetails_provider.dart';
 import 'package:providersapi/provider/tvshowtop_provider.dart';
 import 'package:providersapi/repository/Open%20Page/openpage.dart';
+import 'package:providersapi/repository/Open%20Page/splashscreen.dart';
 
 void main() {
   runApp(
@@ -14,7 +16,9 @@ void main() {
         ChangeNotifierProvider<ProviderItems>(create: (_) => ProviderItems()),
         ChangeNotifierProvider<SearchMovieProvider>(
             create: (_) => SearchMovieProvider()),
-        ChangeNotifierProvider<TvTopProvider>(create: (_) => TvTopProvider())
+        ChangeNotifierProvider<TvTopProvider>(create: (_) => TvTopProvider()),
+        ChangeNotifierProvider<TvDetailsProvider>(
+            create: (_) => TvDetailsProvider())
       ],
       child: MyApp(),
     ),
@@ -35,7 +39,8 @@ class MyApp extends StatelessWidget {
       ),
       // home: ScreenHome());
       //home: CategoryPage()
-      home: OpenPage(),
+      //home: OpenPage(),
+      home: ScreenSplash(),
     );
   }
 }

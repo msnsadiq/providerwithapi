@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -16,11 +14,15 @@ class MainHall {
   Future<Response> FetchFunc(
       {required String pathitem,
       required String method,
-      required Object? body, required bool urldiffrent}) async {
+      required Object? body,
+      required bool urldiffrent}) async {
     Map<String, String> headerParams = {};
     Response response;
 
-    String url = urldiffrent ? pathuri + pathitem + '?api_key=$keyy': pathuri+'search/movie?api_key=55c72b3a0898da6b37311cf0603659e2&language=en-US&query=$pathitem&page=1&include_adult=false';
+    String url = urldiffrent
+        ? pathuri + pathitem + '?api_key=$keyy'
+        : pathuri +
+            'search/movie?api_key=$keyy&language=en-US&query=$pathitem&page=1&include_adult=false';
     print(url);
 
     final nullableHeaderParams = (headerParams.isEmpty) ? null : headerParams;

@@ -7,11 +7,14 @@ import 'package:providersapi/repository/api/TrendingModel.dart';
 import 'package:providersapi/repository/api/TvShowTopRatedModel.dart';
 import 'package:providersapi/repository/api/api_client.dart';
 
+import 'TvDetailModell.dart';
+
 class AllApi {
   MainHall mainHall = MainHall();
   final String pathdefines = 'trending/all/day';
   final String pathdefinesid = 'movie/';
   final String pathtvtop = 'tv/top_rated';
+  final String pathtvdetails = 'tv/';
 
   Future<TrendingModel> trendingApi() async {
     Response response = await mainHall.FetchFunc(
@@ -38,5 +41,14 @@ class AllApi {
     Response response = await mainHall.FetchFunc(
         pathitem: pathtvtop, method: "GET", body: null, urldiffrent: true);
     return TvShowTopRatedModel.fromJson(json.decode(response.body));
+  }
+
+  Future<TvDetailModell> tvDetailByid(String id) async {
+    Response response = await mainHall.FetchFunc(
+        pathitem: pathtvdetails + id,
+        method: "GET",
+        body: null,
+        urldiffrent: true);
+    return TvDetailModell.fromJson(json.decode(response.body));
   }
 }
