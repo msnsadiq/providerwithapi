@@ -54,14 +54,15 @@ class _MixedOpenPageState extends State<MixedOpenPage> {
           ],
         ),
         backgroundColor: Colors.black,
-        body: ListView(
-          children: [
-            SingleChildScrollView(
+        body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints){
+            return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height),
+                    minHeight: viewportConstraints.maxHeight),
                 child: Column(
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     ListTile(
                       title: Text(
@@ -84,37 +85,37 @@ class _MixedOpenPageState extends State<MixedOpenPage> {
                       //color: Colors.yellow,
                       child: tvtopprovider.loading
                           ? Center(
-                              child: CircularProgressIndicator(),
-                            )
+                        child: CircularProgressIndicator(),
+                      )
                           : ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: tvtopprovider
-                                  .tvShowTopRatedModel.results!.length,
-                              itemBuilder: (ctx, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (ctx) => TvDetailPage(
-                                                id: tvtopprovider
-                                                    .tvShowTopRatedModel
-                                                    .results![index]
-                                                    .id
-                                                    .toString())));
-                                  },
-                                  child: Card(
-                                    elevation: 20,
-                                    shadowColor: Colors.red,
-                                    child: Image.network(
-                                      imageurl +
-                                          tvtopprovider.tvShowTopRatedModel
-                                              .results![index].posterPath
-                                              .toString(),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                );
-                              }),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: tvtopprovider
+                              .tvShowTopRatedModel.results!.length,
+                          itemBuilder: (ctx, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (ctx) => TvDetailPage(
+                                            id: tvtopprovider
+                                                .tvShowTopRatedModel
+                                                .results![index]
+                                                .id
+                                                .toString())));
+                              },
+                              child: Card(
+                                elevation: 20,
+                                shadowColor: Colors.red,
+                                child: Image.network(
+                                  imageurl +
+                                      tvtopprovider.tvShowTopRatedModel
+                                          .results![index].posterPath
+                                          .toString(),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            );
+                          }),
                     ),
                     ListTile(
                       title: Text(
@@ -132,51 +133,49 @@ class _MixedOpenPageState extends State<MixedOpenPage> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: provider.loading
-                          ? Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : SizedBox(
-                              height: MediaQuery.of(context).size.height,
-                              child: GridView.builder(
-                                  //shrinkWrap: true,
-                                  // scrollDirection: Axis.vertical,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3,
-                                          mainAxisSpacing: 5,
-                                          crossAxisSpacing: 5),
-                                  itemCount:
-                                      provider.trendingModel.results!.length,
-                                  itemBuilder: (ctx, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (ctx) => ScreenTwo(
-                                                    id: provider.trendingModel
-                                                        .results![index].id
-                                                        .toString())));
-                                      },
-                                      child: Card(
-                                        child: Image.network(
-                                          imageurl +
-                                              provider.trendingModel
-                                                  .results![index].posterPath
-                                                  .toString(),
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                            ),
+                    provider.loading
+                        ? Center(
+                      child: CircularProgressIndicator(),
                     )
+                        : GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            // scrollDirection: Axis.vertical,
+                            gridDelegate:
+                            SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                mainAxisSpacing: 5,
+                                crossAxisSpacing: 5),
+                            itemCount:
+                            provider.trendingModel.results!.length,
+                            itemBuilder: (ctx, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (ctx) => ScreenTwo(
+                                              id: provider.trendingModel
+                                                  .results![index].id
+                                                  .toString())));
+                                },
+                                child: Card(
+                                  child: Image.network(
+                                    imageurl +
+                                        provider.trendingModel
+                                            .results![index].posterPath
+                                            .toString(),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              );
+                            }),
+                   
                   ],
                 ),
               ),
-            ),
-          ],
+            );
+          },
+
         ));
   }
 }

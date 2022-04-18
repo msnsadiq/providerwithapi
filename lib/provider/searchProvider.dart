@@ -22,9 +22,9 @@ class DataSearch extends SearchDelegate{
 
       IconButton(
         icon: Icon(Icons.search,color: Colors.red,size: 45,),
-        onPressed: ()async{
+        onPressed: (){
           //query=activeTab;
-         await Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SearchDisplay(moviename: query)));
+          Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SearchDisplay(moviename: query)));
         },
       ),
       SizedBox(width: 10,)
@@ -76,9 +76,14 @@ class DataSearch extends SearchDelegate{
           itemCount: matchQuery.length,
           itemBuilder: (ctx,index){
             var allItems = matchQuery[index];
-            return ListTile(
+            return GestureDetector(
+              onTap: (){
+                 Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SearchDisplay(moviename: allItems)));
+              },
+              child: ListTile(
 
-              title: Text(allItems,style: TextStyle(color: Colors.white),),
+                title: Text(allItems,style: TextStyle(color: Colors.white),),
+              ),
             );
           }),
     );
