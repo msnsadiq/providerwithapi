@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:providersapi/repository/Open%20Page/openpage.dart';
+
+import '../../provider/provider.dart';
+import '../../provider/tvshowtop_provider.dart';
 
 class ScreenSplash extends StatefulWidget {
   const ScreenSplash({Key? key}) : super(key: key);
@@ -11,6 +15,10 @@ class ScreenSplash extends StatefulWidget {
 class _ScreenSplashState extends State<ScreenSplash> {
   @override
   void initState() {
+    // final tvtopprovider = Provider.of<TvTopProvider>(context, listen: false);
+    // tvtopprovider.getTvTopItems(context);
+    // final provider = Provider.of<ProviderItems>(context, listen: false);
+    // provider.buildProviderTrending(context);
     waitingScreen();
     // TODO: implement initState
     super.initState();
@@ -18,6 +26,8 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
   @override
   Widget build(BuildContext context) {
+    // final tvtopprovider = Provider.of<TvTopProvider>(context);
+    // final provider = Provider.of<ProviderItems>(context);
     return const Scaffold(
       backgroundColor: Colors.black,
       body: Center(

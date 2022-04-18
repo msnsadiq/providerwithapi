@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:providersapi/TrendingNEw.dart';
 //import 'package:providersapi/categorypage.dart';
 import 'package:providersapi/homepage.dart';
 import 'package:providersapi/repository/mixedhome.dart';
@@ -60,7 +61,7 @@ class _OpenPageState extends State<OpenPage> {
           },
           children: [
             MixedOpenPage(),
-            ScreenHome(),
+       TrendingNew(),
             TvShow(),
           ],
         ),
