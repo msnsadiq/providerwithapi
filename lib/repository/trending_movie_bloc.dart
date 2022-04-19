@@ -21,7 +21,7 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
 
 
         try {
-        
+
         } catch (e) {
 
         }
