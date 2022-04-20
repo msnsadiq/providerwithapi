@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:providersapi/homepage.dart';
+import 'package:providersapi/moviesuggestpage/moviesuggest.dart';
 import 'package:providersapi/provider/searchProvider.dart';
 import 'package:providersapi/repository/tvshowpage.dart';
 import 'package:providersapi/secondpage.dart';
@@ -45,7 +46,8 @@ class _MixedOpenPageState extends State<MixedOpenPage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  showSearch(context: context, delegate: DataSearch());
+                  //showSearch(context: context, delegate: DataSearch());
+                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>MovieSuggest()));
                 },
                 icon: Icon(
                   Icons.search,

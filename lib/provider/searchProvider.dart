@@ -1,5 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:providersapi/provider/searchmovieprovider.dart';
+import 'package:providersapi/repository/api/SearchMovieModel.dart';
 import 'package:providersapi/searchmovie%20details/screensearchmovie.dart';
 
 class DataSearch extends SearchDelegate{
@@ -40,6 +43,7 @@ class DataSearch extends SearchDelegate{
 
   @override
   Widget buildResults(BuildContext context) {
+
     return Center(child: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -62,30 +66,48 @@ class DataSearch extends SearchDelegate{
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    final searchMovieProvider = Provider.of<SearchMovieProvider>(context,);
+    SearchMovieModel? searchMovieModel;
+if(query.isNotEmpty){
+
+  getResults(context).then((value){
+    searchMovieModel  = searchMovieProvider.searchMovieModel;
+  } );
+}
+
+
+
     List<String>matchQuery = [];
-    for(var movies in searchTerms){
-      if(movies.toLowerCase().contains(query.toLowerCase())){
-        matchQuery.add(movies);
-      }
-    }
+    // for(var movies in searchTerms){
+    //   if(movies.toLowerCase().contains(query.toLowerCase())){
+    //     matchQuery.add(movies);
+    //   }
+    // }
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       color: Colors.black,
-      child: ListView.builder(
-          itemCount: matchQuery.length,
+      child:!searchMovieProvider.loading? ListView.builder(
+          itemCount: searchMovieModel!.results!.length,
           itemBuilder: (ctx,index){
-            var allItems = matchQuery[index];
+           // var allItems = matchQuery[index];
             return GestureDetector(
               onTap: (){
-                 Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SearchDisplay(moviename: allItems)));
+                 Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SearchDisplay(moviename: query)));
               },
               child: ListTile(
 
-                title: Text(allItems,style: TextStyle(color: Colors.white),),
+                title: Text(searchMovieProvider.searchMovieModel.results![index].title.toString(),style: TextStyle(color: Colors.white),),
               ),
             );
-          }),
+          }):Center(child: CircularProgressIndicator()),
     );
+  }
+
+ Future<void> getResults( context)async{
+    final searchMovieProvider = Provider.of<SearchMovieProvider>(context,listen: false);
+
+ searchMovieProvider.searchMovieWork(context, query.toLowerCase());
+
   }
   }

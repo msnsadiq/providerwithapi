@@ -22,7 +22,7 @@ class MainHall {
     String url = urldiffrent
         ? pathuri + pathitem + '?api_key=$keyy'
         : pathuri +
-            'search/movie?api_key=$keyy&language=en-US&query=$pathitem&page=1&include_adult=false';
+            'search/multi?api_key=$keyy&language=en-US&query=$pathitem&page=1&include_adult=false';
     print(url);
 
     final nullableHeaderParams = (headerParams.isEmpty) ? null : headerParams;
