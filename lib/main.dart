@@ -11,7 +11,7 @@ import 'package:providersapi/provider/tvshowtop_provider.dart';
 import 'package:providersapi/repository/Open%20Page/openpage.dart';
 import 'package:providersapi/repository/Open%20Page/splashscreen.dart';
 import 'package:providersapi/repository/api/apiitem.dart';
-import 'package:providersapi/repository/trending_movie_bloc.dart';
+//import 'package:providersapi/repository/trending_movie_bloc.dart';
 
 void main() {
   runApp(
@@ -35,12 +35,7 @@ AllApi allApi = AllApi();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-
-      providers: [
-        BlocProvider<TrendingMovieBloc>(create: (context)=>TrendingMovieBloc(allApi))
-      ],
-      child: MaterialApp(
+    return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'providersapi',
         theme: ThemeData(
@@ -50,8 +45,8 @@ AllApi allApi = AllApi();
         //home: CategoryPage()
         //home: OpenPage(),
         home: ScreenSplash(),
-      ),
-    );
+      );
+
   }
 }
 //8417e5718758d632f59c399f948b60ea

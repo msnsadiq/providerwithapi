@@ -48,15 +48,11 @@ class _MovieSuggestState extends State<MovieSuggest> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10,
+
+              Text(
+                "found  "+ searchMovieProvider.searchMovieModel.results!.length.toString()+ "  results",
+                style: TextStyle(color: Colors.white),
               ),
-              Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    "Recent",
-                    style: TextStyle(color: Colors.white),
-                  )),
               searchMovieProvider.loading
                   ? Center(
                       child: CircularProgressIndicator(),
@@ -65,6 +61,7 @@ class _MovieSuggestState extends State<MovieSuggest> {
                       child: GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
+                                childAspectRatio: 2,
                             crossAxisCount: 1,
                             mainAxisSpacing: 5,
                             crossAxisSpacing: 5,
@@ -82,16 +79,24 @@ class _MovieSuggestState extends State<MovieSuggest> {
                                         )));
                               },
                               // child:
-                              child: Container(
-                                color: Colors.red,
+                              child:  SizedBox(
+                                //color: Colors.red,
                                 height: 150,
-                                child: Row(
-                                  children: [
-                                    Card(
+                                child: Card(
+                                  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                  child: Row(
+                                    children: [
+                                      Card(
 
-                                      child: Image.network(imageurl+ searchMovieProvider.searchMovieModel.results![index].posterPath.toString(),fit: BoxFit.fill,),
-                                    )
-                                  ],
+                                        child: Image.network(imageurl+ searchMovieProvider.searchMovieModel.results![index].posterPath.toString(),fit: BoxFit.fill,),
+                                      ),
+                                      Column(
+                                        children: [
+
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
